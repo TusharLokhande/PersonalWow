@@ -18,6 +18,7 @@ namespace Prosares.Wow.Data.Entities
     [Table("WorkPoliciesMaster")]
     public partial class WorkPoliciesMaster : BaseEntity
     {
+        
         public WorkPoliciesMaster()
         {
             EmployeeMasters = new HashSet<EmployeeMasterEntity>();
@@ -44,12 +45,12 @@ namespace Prosares.Wow.Data.Entities
         public int start { get; set; }
         public string searchText { get; set; }
 
-        public string WorkingDay1 { get; set; }
-        public string WorkingDay2 { get; set; }
-        public string WorkingDay3 { get; set; }
-        public string WorkingDay4 { get; set; }
-        public string WorkingDay5 { get; set; }
-        public string WorkingDay6 { get; set; }
+        public string? WorkingDay1 { get; set; }
+        public string? WorkingDay2 { get; set; }
+        public string? WorkingDay3 { get; set; }
+        public string? WorkingDay4 { get; set; }
+        public string? WorkingDay5 { get; set; }
+        public string? WorkingDay6 { get; set; }
 
 
         [DataType(DataType.Date)]

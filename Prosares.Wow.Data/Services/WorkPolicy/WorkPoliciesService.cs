@@ -113,11 +113,15 @@ namespace Prosares.Wow.Data.Services.WorkPolicy
                 data.Holiday7 = Convert.ToDateTime  (value.HolidayDates[6]);
                 data.Holiday8 = Convert.ToDateTime  (value.HolidayDates[7]);
                 data.Holiday9 = Convert.ToDateTime  (value.HolidayDates[8]);
-                data.Holiday10 = Convert.ToDateTime  (value.HolidayDates[9]);
+               
 
-             
+                if (value.HolidayDates.Count > 9)
+                {
+                    data.Holiday10 = Convert.ToDateTime (value.HolidayDates[9]);
 
-                if(value.HolidayDates.Count > 10)
+                }
+
+                if (value.HolidayDates.Count > 10)
                 {
                     data.Holiday11 = Convert.ToDateTime  (value.HolidayDates[10]);
 
@@ -128,7 +132,13 @@ namespace Prosares.Wow.Data.Services.WorkPolicy
                 data.WorkingDay3 = (value.WorkingDates[2].value);
                 data.WorkingDay4 = (value.WorkingDates[3].value);
                 data.WorkingDay5 = (value.WorkingDates[4].value);
-                data.WorkingDay6 = (value.WorkingDates[5].value);
+
+               
+               
+                if(value.WorkingDates.Count > 5)
+                {
+                    data.WorkingDay6 = (value.WorkingDates[5].value);
+                }
 
 
                 
@@ -138,6 +148,8 @@ namespace Prosares.Wow.Data.Services.WorkPolicy
             }
 
             // Update in DB
+            
+            
             var workPoliciesMaster = _workPolicies.GetById(value.Id);
             workPoliciesMaster.PolicyName = value.PolicyName;
             workPoliciesMaster.ValidFrom = value.ValidFrom;
@@ -154,20 +166,45 @@ namespace Prosares.Wow.Data.Services.WorkPolicy
             workPoliciesMaster.Holiday7 = Convert.ToDateTime(value.HolidayDates[6]);
             workPoliciesMaster.Holiday8 = Convert.ToDateTime(value.HolidayDates[7]);
             workPoliciesMaster.Holiday9 = Convert.ToDateTime(value.HolidayDates[8]);
-            workPoliciesMaster.Holiday10 = Convert.ToDateTime(value.HolidayDates[9]);
+          
+
+            if (value.HolidayDates.Count > 9)
+            {
+                workPoliciesMaster.Holiday10 = Convert.ToDateTime(value.HolidayDates[9]);
+            }
+            else
+            {
+                workPoliciesMaster.Holiday10 = null;
+            }
 
             if (value.HolidayDates.Count > 10)
             {
                 workPoliciesMaster.Holiday11 = Convert.ToDateTime(value.HolidayDates[10]);
 
             }
+            else
+            {
+                workPoliciesMaster.Holiday11 = null;
+            }
+
+          
 
             workPoliciesMaster.WorkingDay1 = (value.WorkingDates[0].value);
             workPoliciesMaster.WorkingDay2 = (value.WorkingDates[1].value);
             workPoliciesMaster.WorkingDay3 = (value.WorkingDates[2].value);
             workPoliciesMaster.WorkingDay4 = (value.WorkingDates[3].value);
             workPoliciesMaster.WorkingDay5 = (value.WorkingDates[4].value);
-            workPoliciesMaster.WorkingDay6 = (value.WorkingDates[5].value);
+
+
+
+            if (value.WorkingDates.Count > 5)
+            {
+                workPoliciesMaster.WorkingDay6 = (value.WorkingDates[5].value);
+            }
+            else
+            {
+                workPoliciesMaster.WorkingDay6 = null;
+            }
 
             _workPolicies.Update(workPoliciesMaster);
             return workPoliciesMaster.Id;

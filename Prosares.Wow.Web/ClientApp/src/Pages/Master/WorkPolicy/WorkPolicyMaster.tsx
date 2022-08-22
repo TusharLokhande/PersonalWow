@@ -266,8 +266,6 @@ const WorkPolicyMaster = () => {
             : moment(ele.holiday10).format(moment.HTML5_FMT.DATE);
       });
 
-      console.log(data);
-
       setWorkPolicyData(data.workPoliciesMasterData);
       setCount(data.count);
     })();
@@ -306,8 +304,6 @@ const WorkPolicyMaster = () => {
       setStart(page * pageSize);
     },
   };
-
-  console.log(workPolicyData);
 
   return (
     <>

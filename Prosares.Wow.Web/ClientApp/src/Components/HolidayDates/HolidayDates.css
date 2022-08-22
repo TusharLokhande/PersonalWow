@@ -1,15 +1,10 @@
 ._card {
-  width: 150px;
-  height: 40px;
-  border-radius: 4px;
-  background: #fff;
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.08), 0 0 6px rgba(0, 0, 0, 0.05);
-  display: flex;
-  color: grey;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
+}
+
+.DisplayDates {
+  height: 210px;
+  overflow-y: scroll;
   margin-top: 10px;
-  margin-bottom: 10px;
-  border: 0.5px #c4c4c4 solid;
+  width: 160px;
+  margin-left: 75px;
 }

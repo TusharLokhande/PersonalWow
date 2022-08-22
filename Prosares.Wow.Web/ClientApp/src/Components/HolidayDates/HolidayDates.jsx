@@ -3,24 +3,12 @@ import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import "./HolidayDates.css";
 import Chip from "@mui/material/Chip";
-import moment, { invalid } from "moment";
+import moment from "moment";
 
 const DisplayDiv = ({ index, onDelete, date }) => {
   return (
-    // <div className="_card">
-    //   <div>
-    //     {index + 1}. {date}
-    //     <DeleteForeverIcon
-    //       style={{ marginLeft: "5px", cursor: "pointer" }}
-    //       onClick={() => {
-    //         onDelete(index);
-    //       }}
-    //     />
-    //   </div>
-    // </div>
     <div
       style={{
         margin: "10px",
@@ -38,16 +26,14 @@ const DisplayDiv = ({ index, onDelete, date }) => {
 };
 
 function HolidayDates(props) {
-  const [test, setTest] = useState(null);
+  const [date, setDate] = useState(null);
   const [btn, setBtn] = useState(false);
 
-  useEffect(() => {
-    console.log("Dates Array", props.Dates);
-  }, [props.Dates]);
+  // useEffect(() => {
+  //   console.log("Dates Array", props.Dates);
+  // }, [props.Dates]);
 
   //checking for the duplicate holidays
-
-  console.log(props.Dates);
 
   function deleteDate(id) {
     props.setHolidayDates((prev) => {
@@ -57,27 +43,26 @@ function HolidayDates(props) {
     });
   }
 
-  let arr = [];
-  function addTest(test) {
+  function addDate(date) {
     if (props.Dates.length < 11) {
-      let newDate = moment(test).format(moment.HTML5_FMT.DATE);
+      let newDate = moment(date).format(moment.HTML5_FMT.DATE);
       props.setHolidayDates((prev) => {
         return [...prev, newDate];
       });
     }
   }
 
-  function submitdate(event) {
-    if (test === null) {
+  function submitdate() {
+    if (date === null) {
       return;
     }
 
-    addTest(test);
-    setTest(null);
+    addDate(date);
+    setDate(null);
   }
 
   const onChangeDatesHandler = (e) => {
-    setTest(e);
+    setDate(e);
     if (e) {
       props.setFormErrors((preState) => ({
         ...preState,
@@ -114,7 +99,7 @@ function HolidayDates(props) {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <DatePicker
             label="Select Holidays"
-            value={test}
+            value={date}
             // onChange={(newValue) => {
             //   setTest(newValue);
             // }}
@@ -140,7 +125,12 @@ function HolidayDates(props) {
         Add
       </button>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr" }}>
+      <div
+        className="DisplayDates"
+        style={
+          props.Dates.length > 0 ? { display: "block" } : { display: "none" }
+        }
+      >
         {props.Dates.map(
           (i, j) =>
             j < 11 && (
