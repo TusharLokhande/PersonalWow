@@ -16,7 +16,7 @@ import Heading from "../../../Components/Heading/Heading";
 import HolidayDates from "../../../Components/HolidayDates/HolidayDates";
 import SelectForm from "../../../Components/SelectForm/SelectForm";
 import moment from "moment";
-import { PresentToAllTwoTone } from "@mui/icons-material";
+import id from "date-fns/esm/locale/id/index.js";
 
 const WorkPolicyMasterEdit = () => {
   let navigate = useNavigate();
@@ -29,6 +29,7 @@ const WorkPolicyMasterEdit = () => {
   const [formErrors, setFormErrors] = useState({});
   const [holidayDates, setHolidayDates] = useState([]);
   const [workingDaysList, setWorkingDaysList] = useState([]);
+  const [validation, setValidation] = useState({ input: null });
 
   let formErrorObj = {};
 
@@ -131,8 +132,6 @@ const WorkPolicyMasterEdit = () => {
     getWorkpolicyById();
   }, []);
 
-  useEffect(() => {}, [workingDaysList]);
-
   const getDataOnSubmit = async (requestObject: any) => {
     if (requestObject !== null) {
       const { data } = await APICall(
@@ -155,8 +154,6 @@ const WorkPolicyMasterEdit = () => {
         isActive: isActive,
       };
 
-      console.log(requestObject);
-
       //submitApiCall
       if (workPolicyId !== 0) {
         requestObject.id = workPolicyId;
@@ -168,7 +165,6 @@ const WorkPolicyMasterEdit = () => {
       );
 
       if (isEmpty === true) {
-        console.log(requestObject);
         await getDataOnSubmit(requestObject);
       }
     }
@@ -182,12 +178,75 @@ const WorkPolicyMasterEdit = () => {
     }
   };
 
+  //on Change Validation
   const selectOnChange = async (event: any, apiFieldName: any) => {
     if (apiFieldName === "validFrom") {
       setValidFrom(event);
+      console.log(event);
+      if (event) {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["validFrom_isEmpty"]: undefined,
+        }));
+      } else {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["validFrom_isEmpty"]: "Valid From date can not be empty",
+        }));
+      }
     }
     if (apiFieldName === "validTill") {
       setValidTill(event);
+      if (event) {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["validTill_isEmpty"]: undefined,
+          ["Invalid Date"]: undefined,
+        }));
+      } else {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["validTill_isEmpty"]: "Valid From date can not be empty",
+        }));
+      }
+    }
+
+    if (apiFieldName === "workPolicyName") {
+      setWorkPolicyName(event.target.value);
+      if (
+        event.target.value &&
+        event.target.value !== "" &&
+        event.target.value.toString().trim() !== ""
+      ) {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["workPolicyName_isEmpty"]: undefined,
+        }));
+      } else if (
+        !event.target.value ||
+        event.target.value === "" ||
+        event.target.value.toString().trim() === ""
+      ) {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["workPolicyName_isEmpty"]: "Valid From date can not be empty",
+        }));
+      }
+    }
+
+    if (apiFieldName === "workingDaylist") {
+      setWorkingDaysList(event);
+      if (event) {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["workingDaysList_isEmpty"]: undefined,
+        }));
+      } else {
+        setFormErrors((preState) => ({
+          ...preState,
+          ["workingDaysList_isEmpty"]: "Working Day list cannot be empty",
+        }));
+      }
     }
   };
 
@@ -201,10 +260,6 @@ const WorkPolicyMasterEdit = () => {
         ...preState,
         ["workPolicyName_isEmpty"]: "Work Policy Name can not be empty",
       }));
-      return {
-        isValid: false,
-        message: "Mandatory fields cannot be empty!",
-      };
     }
 
     const data = await APICall(CheckIfWorkPolicyExists, "POST", {
@@ -231,19 +286,19 @@ const WorkPolicyMasterEdit = () => {
     if (validTill == undefined || validTill == null) {
       objError["validTill_isEmpty"] = "Valid Till date can not be empty";
     }
-    debugger;
+
     let check = checkDate();
     if (check) {
       objError["Invalid Date"] =
         "valid till date must be smaller than valid from date";
     }
 
-    if (holidayDates.length <= 0) {
-      objError["holidayDates_isEmpty"] = "Holiday cannot be empty!";
+    if (workingDaysList.length <= 0) {
+      objError["workingDaysList_isEmpty"] = "Working cannot be empty!";
     }
 
-    if (workingDaysList.length <= 0) {
-      objError["workingDaysList.isEmpty"] = "Working cannot be empty!";
+    if (holidayDates.length < 10) {
+      objError["LeastHolidays"] = "10 Holidays are mandatory!";
     }
 
     formErrorObj = objError;
@@ -261,6 +316,14 @@ const WorkPolicyMasterEdit = () => {
     return false;
   };
 
+  let hasDuplicates = () => {
+    let op = new Set(holidayDates);
+    if (holidayDates.length !== op.size) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div>
       <Heading title={"Work Policy Master"} />
@@ -269,13 +332,16 @@ const WorkPolicyMasterEdit = () => {
           <div className="row">
             <div className="col-lg-3 col-md-4 col-sm-6">
               <div className="form-group">
-                <label>Work Policy Name</label>
+                <label>
+                  Work Policy Name<sup style={{ color: "red" }}>*</sup>
+                </label>
                 <InputForm
                   placeholder={""}
                   isDisabled={false}
                   textArea={false}
                   value={workPolicyName}
-                  onChange={(e) => setWorkPolicyName(e.target.value)}
+                  onChange={(e) => selectOnChange(e, "workPolicyName")}
+                  //onChange={InputValidation}
                 />
                 <p style={{ color: "red" }}>
                   {formErrors["WorkPolicy_exists"]}
@@ -338,7 +404,7 @@ const WorkPolicyMasterEdit = () => {
             <div style={reactSelectStyles}>
               <SelectForm
                 value={workingDaysList}
-                onChange={(s) => setWorkingDaysList(s)}
+                onChange={(e) => selectOnChange(e, "workingDaylist")}
                 options={options}
                 isMulti
                 isSearchable={false}
@@ -349,7 +415,7 @@ const WorkPolicyMasterEdit = () => {
                 placeholder="Select Working Days"
               />
               <p style={{ color: "red" }}>
-                {formErrors["workingDaysList.isEmpty"]}
+                {formErrors["workingDaysList_isEmpty"]}
               </p>
             </div>
 

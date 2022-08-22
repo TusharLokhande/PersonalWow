@@ -181,6 +181,15 @@ const WorkPolicyMaster = () => {
         sortDescFirst: true,
       },
     },
+    {
+      name: "holiday11",
+      label: "Holiday 11",
+      options: {
+        filter: false,
+        sort: true,
+        sortDescFirst: true,
+      },
+    },
   ];
   useEffect(() => {
     (async () => {
@@ -248,6 +257,11 @@ const WorkPolicyMaster = () => {
 
         ele.holiday10 =
           ele.holiday10 == null
+            ? ""
+            : moment(ele.holiday10).format(moment.HTML5_FMT.DATE);
+
+        ele.holiday11 =
+          ele.holiday11 == null
             ? ""
             : moment(ele.holiday10).format(moment.HTML5_FMT.DATE);
       });

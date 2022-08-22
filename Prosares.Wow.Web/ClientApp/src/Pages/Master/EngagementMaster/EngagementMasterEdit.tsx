@@ -353,11 +353,6 @@ const EngagementMasterEdit = () => {
       engagement === "" ||
       engagement.toString().trim() === ""
     ) {
-      setFormErrors((preState) => ({
-        ...preState,
-        ["engagement_isEmpty"]: "Egagement can not be empty",
-      }));
-      formErrorObj["engagement_isEmpty"] = "Engagement can not be empty";
     }
     if (!povalue || povalue === "" || povalue.toString().trim() === "") {
       setFormErrors((preState) => ({
@@ -757,6 +752,7 @@ const EngagementMasterEdit = () => {
       let isEmpty = Object.values(formErrorObj).every((f) => {
         f === "" || f === null || f === undefined;
       });
+
       if (isEmpty === true) {
         await submitApiCall(submitObj);
       }
@@ -1275,7 +1271,9 @@ const EngagementMasterEdit = () => {
             <div className="row">
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>Engagement<sup>*</sup></label>
+                  <label>
+                    Engagement<sup>*</sup>
+                  </label>
                   <InputForm
                     placeholder={"Engagement"}
                     isDisabled={false}
@@ -1290,7 +1288,9 @@ const EngagementMasterEdit = () => {
               </div>
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>Customer<sup>*</sup></label>
+                  <label>
+                    Customer<sup>*</sup>
+                  </label>
                   <SelectForm
                     key={1}
                     options={customerOptions}
@@ -1309,7 +1309,9 @@ const EngagementMasterEdit = () => {
               </div>
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>Enagagement Type<sup>*</sup></label>
+                  <label>
+                    Enagagement Type<sup>*</sup>
+                  </label>
                   <SelectForm
                     key={1}
                     options={enagagementTypeOptions}
@@ -1332,7 +1334,9 @@ const EngagementMasterEdit = () => {
             <div className="row">
               <div className="col-md-3">
                 <div className="form-group">
-                  <label>PO Value<sup>*</sup></label>
+                  <label>
+                    PO Value<sup>*</sup>
+                  </label>
                   <InputForm
                     placeholder={"POValue"}
                     isDisabled={false}
@@ -1354,7 +1358,9 @@ const EngagementMasterEdit = () => {
               </div>
               <div className="col-md-3">
                 <div className="form-group">
-                  <label>PO Status<sup>*</sup></label>
+                  <label>
+                    PO Status<sup>*</sup>
+                  </label>
                   <SelectForm
                     key={1}
                     options={poStatusOptions}
@@ -1393,12 +1399,14 @@ const EngagementMasterEdit = () => {
               </div>
             </div>
             {enagagementType.label === "AMC" ||
-              enagagementType.label === "T&M" ? (
+            enagagementType.label === "T&M" ? (
               <>
                 <div className="row">
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>PO Months<sup>*</sup></label>
+                      <label>
+                        PO Months<sup>*</sup>
+                      </label>
                       <InputForm
                         placeholder={"PO Months"}
                         isDisabled={false}
@@ -1420,7 +1428,9 @@ const EngagementMasterEdit = () => {
                   </div>
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Billing<sup>*</sup></label>
+                      <label>
+                        Billing<sup>*</sup>
+                      </label>
                       <SelectForm
                         key={1}
                         options={billingOptions}
@@ -1441,7 +1451,9 @@ const EngagementMasterEdit = () => {
                     <>
                       <div className="col-md-3">
                         <div className="form-group">
-                          <label>PO Resources / M<sup>*</sup></label>
+                          <label>
+                            PO Resources / M<sup>*</sup>
+                          </label>
                           <InputForm
                             placeholder={"PO Resources / M"}
                             isDisabled={false}
@@ -1465,7 +1477,9 @@ const EngagementMasterEdit = () => {
                       </div>
                       <div className="col-md-3">
                         <div className="form-group">
-                          <label>Budget Resources / M<sup>*</sup></label>
+                          <label>
+                            Budget Resources / M<sup>*</sup>
+                          </label>
                           <InputForm
                             placeholder={"POValue"}
                             isDisabled={false}
@@ -1495,7 +1509,9 @@ const EngagementMasterEdit = () => {
                     <>
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label>PO Mandays / M<sup>*</sup></label>
+                          <label>
+                            PO Mandays / M<sup>*</sup>
+                          </label>
                           <InputForm
                             placeholder={"PO Mandays / M"}
                             isDisabled={false}
@@ -1519,7 +1535,9 @@ const EngagementMasterEdit = () => {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label>Budget Mandays / M<sup>*</sup></label>
+                          <label>
+                            Budget Mandays / M<sup>*</sup>
+                          </label>
                           <InputForm
                             placeholder={"Budget Mandays / M"}
                             isDisabled={false}
@@ -1569,13 +1587,15 @@ const EngagementMasterEdit = () => {
               <></>
             )}
             {enagagementType.label === "PROJECT" ||
-              enagagementType.label === "PRODUCT" ||
-              enagagementType.label === "INTERNAL" ? (
+            enagagementType.label === "PRODUCT" ||
+            enagagementType.label === "INTERNAL" ? (
               <>
                 <div className="row">
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>PO Mandays<sup>*</sup></label>
+                      <label>
+                        PO Mandays<sup>*</sup>
+                      </label>
                       <InputForm
                         placeholder={"PO Mandays"}
                         isDisabled={false}
@@ -1597,7 +1617,9 @@ const EngagementMasterEdit = () => {
                   </div>
                   <div className="col-md-3">
                     <div className="form-group">
-                      <label>Budget Mandays<sup>*</sup></label>
+                      <label>
+                        Budget Mandays<sup>*</sup>
+                      </label>
                       <InputForm
                         placeholder={"Budget Mandays"}
                         isDisabled={false}
@@ -1862,12 +1884,14 @@ const EngagementMasterEdit = () => {
               <div className="d-flex justify-content-end gap-2">
                 <button
                   onClick={() => submitFunc("submit")}
-                  className="btn btn-primary">
+                  className="btn btn-primary"
+                >
                   Submit
                 </button>
                 <button
                   onClick={() => navigate(-1)}
-                  className="btn btn-secondary">
+                  className="btn btn-secondary"
+                >
                   Back
                 </button>
               </div>

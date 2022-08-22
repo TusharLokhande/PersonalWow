@@ -115,10 +115,7 @@ namespace Prosares.Wow.Data.Services.WorkPolicy
                 data.Holiday9 = Convert.ToDateTime  (value.HolidayDates[8]);
                 data.Holiday10 = Convert.ToDateTime  (value.HolidayDates[9]);
 
-                foreach (var x in value.HolidayDates)
-                {
-                    data.HolidayDates.Add(x);
-                }
+             
 
                 if(value.HolidayDates.Count > 10)
                 {
